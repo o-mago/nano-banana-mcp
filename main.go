@@ -20,7 +20,7 @@ import (
 	"google.golang.org/api/option"
 )
 
-const imageModel = "gemini-2.5-flash-preview-04-17"
+const imageModel = "gemini-2.5-flash-preview"
 
 type GenerateImageArgs struct {
 	Prompt string `json:"prompt"`
@@ -148,7 +148,7 @@ func generateLipSyncImagesHandler(ctx context.Context, _ *mcp.ServerSession, par
 	// Generate mouth-closed image using the open image as reference
 	respClosed, err := model.GenerateContent(ctx,
 		genai.Text("change the mouth from open to close"),
-		genai.ImageData("image/png", openData),
+		genai.ImageData("png", openData),
 	)
 	if err != nil {
 		return nil, err
@@ -190,6 +190,10 @@ func main() {
 	fmt.Fprintln(os.Stderr, "Starting MCP server with SSE transport on :8080...")
 	handler := mcp.NewSSEHandler(func(r *http.Request) *mcp.Server { return s })
 	http.Handle("/", handler)
+	// http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	// 	fmt.Fprintf(os.Stderr, "Request: %s %s\n", r.Method, r.URL)
+	// 	handler.ServeHTTP(w, r)
+	// })
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		fmt.Fprintf(os.Stderr, "Server error: %v\n", err)
 		os.Exit(1)
