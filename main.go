@@ -20,7 +20,7 @@ import (
 	"google.golang.org/api/option"
 )
 
-const imageModel = "gemini-2.5-flash-preview"
+const imageModel = "gemini-2.5-flash-image"
 
 type GenerateImageArgs struct {
 	Prompt string `json:"prompt"`
