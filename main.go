@@ -187,14 +187,11 @@ func main() {
 		Description: "Generates two images for a lip-syncing app, one with mouth open and one with mouth closed.",
 	}, generateLipSyncImagesHandler)
 
-	fmt.Fprintln(os.Stderr, "Starting MCP server with SSE transport on :8080...")
+	fmt.Fprintln(os.Stderr, "Starting MCP server with SSE transport on :8090...")
 	handler := mcp.NewSSEHandler(func(r *http.Request) *mcp.Server { return s })
 	http.Handle("/", handler)
-	// http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-	// 	fmt.Fprintf(os.Stderr, "Request: %s %s\n", r.Method, r.URL)
-	// 	handler.ServeHTTP(w, r)
-	// })
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+
+	if err := http.ListenAndServe(":8090", nil); err != nil {
 		fmt.Fprintf(os.Stderr, "Server error: %v\n", err)
 		os.Exit(1)
 	}
